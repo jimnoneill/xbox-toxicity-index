@@ -1,0 +1,11 @@
+__pycache__/
+*.pyc
+data/
+output/
+checkpoints/
+models*/
+venv/
+.venv/
+.secrets/
+.env
+*.parquet
