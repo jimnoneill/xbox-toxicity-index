@@ -24,3 +24,12 @@ Derived results and annotation metadata: https://doi.org/10.5281/zenodo.24128151
 Added code: timing models for member post and event streams, with the shared-activity term, the calibrated goodness-of-fit test, the diagnostic of leftover dependence, the coupled-units analysis and Figure S1 (analysis/runs/pointprocess_full, see its README), and scripts that redraw Figures 2, 4, 6 and 7 and the external-panel figure from their stored results (analysis/runs/fig_relabel_v36, fig_relabel_v37, fig_relabel_v42).
 
 Added data (Zenodo only): aggregate results of the timing models, the shared-activity term, the leftover-dependence diagnostic and the coupled-units analysis, and the values plotted in Figure 2, Figure 4, Figure S1 and the external-panel figure. Member-level tables are not released. Files of version 2026.11.09 are unchanged in both archives.
+
+## Version 2026.11.11
+
+Software archive: https://doi.org/10.5281/zenodo.24144555 (previous version 10.5281/zenodo.24128150)
+Derived results and annotation metadata: https://doi.org/10.5281/zenodo.24144556 (previous version 10.5281/zenodo.24128151)
+
+Added code and designs: the written designs of the tests of the viability framework (scripts/v7/rvt_a_DESIGN.md, rvt_b_DESIGN.md, rvt_c_DESIGN.md, rvt_d_DESIGN.md), the code of the second set of tests and of the release and width tests (scripts/v7/rvt_c_01_state.py, rvt_c_02_c5_deviation.py, rvt_d_01_release_width.py), the comparison of one timing rule with yearly rules (analysis/runs/pointprocess_full/run_drift.py), and the re-analysis of the stored test estimates (analysis/runs/pointprocess_full/wolfram/q4_rvt_scorecard.wl).
+
+Added data (Zenodo only): aggregate results of the second set of tests and of the release and width tests, the timing-rule comparison, and an updated file of analytic check values. Member-level tables are not released. Other files of version 2026.11.10 are unchanged in both archives.
