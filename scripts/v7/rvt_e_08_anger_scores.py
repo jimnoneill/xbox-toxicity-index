@@ -1,4 +1,8 @@
-"""RVT-E follow-up (after the E3 results were seen): why the off-the-shelf anger probability falls for members who lost power
+"""Diagnostic of 2026-11-12, run on the score tables as they stood then, when the column named p_emotion_anger held the
+emotion model's optimism output. The tables were corrected on 2026-11-15 (emotion4_apply.py), so this script documents how the
+error was found and is not meant to be rerun.
+
+RVT-E follow-up (after the E3 results were seen): why the off-the-shelf anger probability falls for members who lost power
 while the purpose-trained genuine-anger score rises. Descriptive. Uses the E3 member-day cache and member sample, and the
 four-class emotion labels stored for the 2017 to 2023 sample of the corpus."""
 import json

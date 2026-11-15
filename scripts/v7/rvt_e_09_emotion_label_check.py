@@ -1,4 +1,7 @@
-"""RVT-E follow-up: which output position of the four-class emotion model is which emotion.
+"""Diagnostic of 2026-11-12 that established the class order; it reads the result of rvt_e_08. The order is now fixed in
+emotion4_score.py and xbox/config.py and tested in tests/test_emotion_class_order.py.
+
+RVT-E follow-up: which output position of the four-class emotion model is which emotion.
 
 The scoring scripts took the "anger" probability from the position that the model's config.json names "anger".
 The model card instead tells users to take the class order from the TweetEval mapping file

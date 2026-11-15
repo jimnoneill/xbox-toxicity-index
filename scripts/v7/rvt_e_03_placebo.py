@@ -13,7 +13,7 @@ O = ROOT + "/rvt_e"
 os.makedirs(O, exist_ok=True)
 DATA = os.path.expanduser("~/x_box/pipeline/data")
 D7 = ["offensive", "toxic", "neg_sentiment", "irony", "ragebait", "tribal", "performative"]
-OTHER = ["advocacy", "genuine_anger", "emotion_anger", "hate", "epistemic", "engbait", "agency"]
+OTHER = ["advocacy", "genuine_anger", "emotion_anger", "emotion_optimism", "hate", "epistemic", "engbait", "agency"]
 ARB = ["P1_xyz", "P2_n_to_z", "P3_vowels", "P4_odd_letters"]
 CACHE = O + "/e3_member_day_features.parquet"
 

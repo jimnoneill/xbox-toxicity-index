@@ -33,3 +33,21 @@ Derived results and annotation metadata: https://doi.org/10.5281/zenodo.24144556
 Added code and designs: the written designs of the tests of the viability framework (scripts/v7/rvt_a_DESIGN.md, rvt_b_DESIGN.md, rvt_c_DESIGN.md, rvt_d_DESIGN.md), the code of the second set of tests and of the release and width tests (scripts/v7/rvt_c_01_state.py, rvt_c_02_c5_deviation.py, rvt_d_01_release_width.py), the comparison of one timing rule with yearly rules (analysis/runs/pointprocess_full/run_drift.py), and the re-analysis of the stored test estimates (analysis/runs/pointprocess_full/wolfram/q4_rvt_scorecard.wl).
 
 Added data (Zenodo only): aggregate results of the second set of tests and of the release and width tests, the timing-rule comparison, and an updated file of analytic check values. Member-level tables are not released. Other files of version 2026.11.10 are unchanged in both archives.
+
+## Correction of 15 November 2026: class order of the general-purpose emotion model
+
+What was wrong. The outputs of cardiffnlp/twitter-roberta-base-emotion are in the order of the TweetEval mapping file: anger, joy, optimism, sadness. The id2label table in that model's config.json lists joy, optimism, anger, sadness. The code looked the anger class up by name in the config, so the value it stored and analyzed as the emotion model's anger score was the optimism probability.
+
+What is not affected. The Toxicity Index (TI7) and its seven components, which do not use the emotion model; the purpose-trained classifiers and their training labels; the timing analyses; the tests of the viability framework. The output positions of the other general-purpose models (sentiment, offensive language, irony, hate, toxicity) were checked and are correct.
+
+What changed in this repository.
+
+- xbox/config.py (CLASS_ORDER_OVERRIDES) and xbox/classifiers.py fix the class order in one place; scripts/v7/full_corpus_score.py, ti_classify_probs.py and t6_score_official.py take the anger class by position; scripts/classify_all_congress.py names the classes in the correct order. xbox/classifiers.py also accepts either spelling of the no-hate class.
+- tests/test_emotion_class_order.py checks the order, including on sentences of known emotion when the model is available.
+- scripts/v7/emotion4_score.py scores the emotion model again with all four outputs, emotion4_apply.py writes them into the stored score tables, and emotion_anger_stats.py analyzes the two anger scores (the emotion model's anger class and the purpose-trained genuine-anger classifier).
+- scripts/v7/stats_anger.py is marked superseded. It examined an early draft claim about the class it took for anger.
+- The fifth round of tests of the viability framework is added: scripts/v7/rvt_e_DESIGN.md (frozen before estimation), rvt_e_01 to rvt_e_07 and rvt_e_run.sh. Scripts rvt_e_08 and rvt_e_09 are the diagnostics that found the error.
+
+What changed on Hugging Face. The model card no longer says that the emotion model's anger score ranks human-coded anger inversely or labels mostly advocacy; those statements described its optimism class. The xbox package copy is updated. In the dataset, the class column of labels_advocacy_anger_1k.parquet is renamed to the correct classes, and the columns of the earlier index tables that held the optimism flag are named accordingly.
+
+Archived versions. The Zenodo versions up to 2026.11.11 hold the earlier code. Two files in the data archive carry the earlier naming: in annotation/classifier_vs_human.csv the measures "offshelf P(anger)" and "offshelf anger argmax" are the optimism probability and class, and "offshelf joy" is the anger probability; in output/v7/stats_full/numbers_stats_full.json the keys that begin anger_ots and the key p_emotion_anger describe the optimism class. A corrected archive version will follow this entry.
