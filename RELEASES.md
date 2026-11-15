@@ -50,4 +50,15 @@ What changed in this repository.
 
 What changed on Hugging Face. The model card no longer says that the emotion model's anger score ranks human-coded anger inversely or labels mostly advocacy; those statements described its optimism class. The xbox package copy is updated. In the dataset, the class column of labels_advocacy_anger_1k.parquet is renamed to the correct classes, and the columns of the earlier index tables that held the optimism flag are named accordingly.
 
-Archived versions. The Zenodo versions up to 2026.11.11 hold the earlier code. Two files in the data archive carry the earlier naming: in annotation/classifier_vs_human.csv the measures "offshelf P(anger)" and "offshelf anger argmax" are the optimism probability and class, and "offshelf joy" is the anger probability; in output/v7/stats_full/numbers_stats_full.json the keys that begin anger_ots and the key p_emotion_anger describe the optimism class. A corrected archive version will follow this entry.
+Archived versions. The Zenodo versions up to 2026.11.11 hold the earlier code. Two files in the data archive carry the earlier naming: in annotation/classifier_vs_human.csv the measures "offshelf P(anger)" and "offshelf anger argmax" are the optimism probability and class, and "offshelf joy" is the anger probability; in output/v7/stats_full/numbers_stats_full.json the keys that begin anger_ots and the key p_emotion_anger describe the optimism class. Version 2026.11.15 below corrects both archives.
+
+## Version 2026.11.15
+
+Software archive: https://doi.org/10.5281/zenodo.24252944 (previous version 10.5281/zenodo.24144555)
+Derived results and annotation metadata: https://doi.org/10.5281/zenodo.24252949 (previous version 10.5281/zenodo.24144556)
+
+Corrected code: the class order of the general-purpose emotion model (see the correction above) in upstream/xbox/config.py, upstream/xbox/classifiers.py and the three corpus scorers; upstream/scripts/v7/stats_anger.py marked superseded; a test of the class order added.
+
+Added code and designs: the rescoring of the corpus with all four emotion outputs and the analysis of the two anger scores (scripts/v7/emotion4_score.py, emotion4_apply.py, emotion_anger_stats.py), and the fifth round of tests of the viability framework (scripts/v7/rvt_e_DESIGN.md, rvt_e_01 to rvt_e_09, rvt_e_run.sh).
+
+Corrected data (Zenodo only): annotation/classifier_vs_human.csv with the emotion model's measures renamed to what they are and all values unchanged. Added data (Zenodo only): the two anger scores on the full corpus, the 150-post pilot recomputed, the run record of the rescoring, and aggregate results of the fifth round of tests. Member-level tables are not released. Other files of version 2026.11.11 are unchanged in both archives.
