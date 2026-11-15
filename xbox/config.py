@@ -26,6 +26,14 @@ CLASSIFIER_MODELS = {
     "hate": "cardiffnlp/twitter-roberta-base-hate-multiclass-latest",
 }
 
+# ── Class order that must not be read from a model's config.json ──
+# cardiffnlp/twitter-roberta-base-emotion was trained on TweetEval emotion, whose mapping file gives
+# 0 anger, 1 joy, 2 optimism, 3 sadness, and the model card tells users to read the order from that file.
+# The id2label table in the model's config.json lists a different order (joy, optimism, anger, sadness).
+CLASS_ORDER_OVERRIDES = {
+    "emotion": ("anger", "joy", "optimism", "sadness"),
+}
+
 # ── Toxicity model ────────────────────────────────────────────────
 TOXICITY_MODEL = "s-nlp/roberta_toxicity_classifier"
 

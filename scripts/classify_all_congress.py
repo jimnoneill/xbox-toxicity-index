@@ -76,6 +76,8 @@ for name, model_id in cardiff_models.items():
     tokenizer = AutoTokenizer.from_pretrained(model_id)
     model = AutoModelForSequenceClassification.from_pretrained(model_id).to(DEVICE).eval()
     id2label = model.config.id2label if hasattr(model.config, 'id2label') else {}
+    if name == 'emotion':  # order of the TweetEval mapping file; the id2label table in this model's config.json is in another order
+        id2label = {0: 'anger', 1: 'joy', 2: 'optimism', 3: 'sadness'}
 
     all_labels = []
     all_scores = []

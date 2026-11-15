@@ -14,7 +14,7 @@ import torch
 from tqdm import tqdm
 from transformers import AutoModelForSequenceClassification, AutoTokenizer
 
-from .config import CLASSIFICATION_BATCH_SIZE, CLASSIFIER_MODELS, TOXICITY_MODEL
+from .config import CLASS_ORDER_OVERRIDES, CLASSIFICATION_BATCH_SIZE, CLASSIFIER_MODELS, TOXICITY_MODEL
 
 log = logging.getLogger(__name__)
 
@@ -68,12 +68,7 @@ class MultiHeadClassifier:
                 model_id
             ).to(self.device).eval()
 
-            # Extract label mapping from model config
-            config = self._models[name].config
-            if hasattr(config, "id2label"):
-                self._label_maps[name] = config.id2label
-            else:
-                self._label_maps[name] = {i: str(i) for i in range(config.num_labels)}
+            self._label_maps[name] = label_map_for(name, self._models[name].config)
 
         # Toxicity model
         log.info("  Loading toxicity: %s", TOXICITY_MODEL)
@@ -179,9 +174,7 @@ class MultiHeadClassifier:
         # Hate
         if "hate" in all_results:
             hate = all_results["hate"]
-            out["hate_score"] = [
-                1.0 - h.get("not-hate", h.get("LABEL_0", 1.0)) for h in hate
-            ]
+            out["hate_score"] = [1.0 - _not_hate(h) for h in hate]
             out["hate_label"] = [max(h, key=h.get) for h in hate]
 
         # Toxicity
@@ -195,6 +188,30 @@ class MultiHeadClassifier:
 
         log.info("Classification complete. Added %d columns.", len(out.columns) - len(df.columns))
         return out
+
+
+def label_map_for(name: str, config) -> dict:
+    """Position -> class name for one classifier.
+
+    The order comes from CLASS_ORDER_OVERRIDES where the model's own id2label table is known to be wrong
+    (the emotion model), and from the model config otherwise.
+    """
+    if name in CLASS_ORDER_OVERRIDES:
+        order = CLASS_ORDER_OVERRIDES[name]
+        if config.num_labels != len(order):
+            raise ValueError(f"{name}: model has {config.num_labels} outputs, expected {len(order)}")
+        return dict(enumerate(order))
+    if hasattr(config, "id2label"):
+        return config.id2label
+    return {i: str(i) for i in range(config.num_labels)}
+
+
+def _not_hate(scores: dict) -> float:
+    """Probability of the no-hate class, whatever spelling the model uses for it."""
+    for label, p in scores.items():
+        if str(label).lower().replace("_", "-") in ("not-hate", "non-hate", "nothate"):
+            return p
+    return 1.0
 
 
 def _preprocess_tweet(text: str) -> str:

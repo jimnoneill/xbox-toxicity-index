@@ -1,4 +1,9 @@
 """
+SUPERSEDED (2026-11-15). This script examined an early draft claim about the anger class of the four-class emotion
+model. It was written when that model's classes were read in the order of its config.json, which is not the order
+of its outputs, so the class it calls anger is the optimism class. It is kept for the record and is not used by the
+paper. The two anger scores are analyzed in emotion_anger_stats.py from the scores of emotion4_score.py.
+
 stats_anger.py  (review fixes M2/M3, task 4)  The anger correction claim (draft Sections 3.3 and 4.3, Table 4).
 
 EM = "a widely used four-class emotion model (CardiffNLP)": anger / joy / optimism / sadness, argmax class per post

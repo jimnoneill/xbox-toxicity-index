@@ -45,6 +45,9 @@ CARDIFF = {  # head -> (hf id, positive label names used by v2 flag logic)
     'emotion_anger': ('cardiffnlp/twitter-roberta-base-emotion', ['anger', 'LABEL_0']),
     'hate': ('cardiffnlp/twitter-roberta-base-hate-multiclass-latest', None),  # prob = 1 - P(not-hate)
 }
+# Output positions that must not be looked up by name in config.json. The emotion model's classes are in the order of the
+# TweetEval mapping file (0 anger, 1 joy, 2 optimism, 3 sadness); the id2label table in its config.json is in another order.
+FIXED_INDEX = {'emotion_anger': 0}
 SETFIT = {
     'ragebait': f'{ROOT}/models/setfit_ragebait',
     'tribal': f'{ROOT}/models_v2/setfit_tribal_signal',
@@ -118,6 +121,7 @@ for head in heads:
             pos_idx = [i for i, l in id2.items() if l in posnames]
             assert len(pos_idx) == 1, (head, id2)
             pos_idx = pos_idx[0]
+        pos_idx = FIXED_INDEX.get(head, pos_idx)
         rec.update(model_id=mid, commit=getattr(model.config, '_commit_hash', None), id2label={str(k): v for k, v in id2.items()},
                    positive_index=pos_idx, max_length=128, batch=args.bs)
         amax = np.zeros(n, dtype=bool)
